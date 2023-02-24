@@ -43,6 +43,7 @@ export default function Index() {
           mode: 'no-cors',
           headers: {'Access-Control-Allow-Origin':'*', 'Access-Control-Allow-Headers':'Origin, Content-Type, Accept'}
         }).then(response => { 
+          console.log(response)
           return response.text();
         }).then(html => { 
           console.log(html)
