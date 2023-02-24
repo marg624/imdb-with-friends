@@ -45,6 +45,7 @@ export default function Index() {
         }).then(response => { 
           return response.text();
         }).then(html => { 
+          console.log(hmtl)
           let n = getName(html);
           let i = getImage(html);
           if (n && i) {
@@ -57,14 +58,6 @@ export default function Index() {
         })
   }
 
-
-function fetchHtml(url) {
-      return fetch(url, {
-          mode: 'no-cors',
-          headers: {'Access-Control-Allow-Origin':'*', 'Access-Control-Allow-Headers':'Origin, Content-Type, Accept'}
-        }).then(response => { return response.text();});
-  }
-
   function getName(html) {
     // <meta property="og:title" content="Elizabeth Bower - IMDb"/>
       const parser = new DOMParser();
@@ -74,6 +67,7 @@ function fetchHtml(url) {
         return (myMetaElement.content.replace(" - IMDb", ""))
       } else {
         console.log('No matching element found');
+        console.log(myMetaElement);
         return null;
       }
     }
@@ -87,6 +81,7 @@ function fetchHtml(url) {
         return (myMetaElement.content)
       } else {
         console.log('No matching element found');
+        console.log(myMetaElement);
         return null;
       }
     }

@@ -47,7 +47,7 @@ class GuessesBoard extends React.Component<Props, GuessState> {
   updateGuess(name1, id1, imdbUrl1, imageurl1) {
     const { guesses } = this.state;
     let newArr = [ ... guesses, {name: name1, imdbUrl: imdbUrl1, imageUrl: imageurl1} ]
-   // this.state.guesses = newArr
+
     let newState = Object.assign(this.state, { guesses: newArr });
 
     this.getOptions(imdbUrl1);
