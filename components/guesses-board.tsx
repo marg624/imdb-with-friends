@@ -56,6 +56,7 @@ class GuessesBoard extends React.Component<Props, GuessState> {
 
   async fetchHtml(url) {
     const response = await fetch(url, {
+        mode: 'no-cors',
         headers: {'Access-Control-Allow-Origin':'*', 'Access-Control-Allow-Headers':'Origin, Content-Type, Accept'}
       });
     const htmlText = await response.text();

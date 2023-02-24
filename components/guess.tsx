@@ -5,6 +5,7 @@ const Guess = (props) => {
 
   async function fetchHtml(url) {
     const response = await fetch(url, {
+        mode: 'no-cors',
         headers: {'Access-Control-Allow-Origin':'*', 'Access-Control-Allow-Headers':'Origin, Content-Type, Accept'}
       });
     const htmlText = await response.text();
@@ -18,7 +19,6 @@ const Guess = (props) => {
   function getImageUrl(html) {
     const parser = new DOMParser();
     const dom = parser.parseFromString(html, 'text/html');
-    console.log(dom)
     const myMetaElement = dom.querySelector("head meta[property='og:image'][content]");
 
     // Use the properties of the element to access its attributes and content

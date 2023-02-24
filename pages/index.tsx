@@ -24,19 +24,13 @@ export default function Index() {
   function getPair() {
       let ran = Math.floor(Math.random() * 6976);
       let arr = gamePairs.pairs[ran].split(" ");
-      console.log("start: " + arr[0]);
-      console.log("end: " + arr[1]);
       getActor(arr[0], true);
       getActor(arr[1], false);
   }
 
   function generateData() {
     getPair();
-
     setReady(true);
-
-    console.log(start)
-    console.log(end)
   }
 
   function noImage(imageUrl) {
@@ -46,6 +40,7 @@ export default function Index() {
   function getActor(actor, isStart) {
     let url = "https://www.imdb.com/name/" + actor; 
     fetch(url, {
+          mode: 'no-cors',
           headers: {'Access-Control-Allow-Origin':'*', 'Access-Control-Allow-Headers':'Origin, Content-Type, Accept'}
         }).then(response => { 
           return response.text();
@@ -65,6 +60,7 @@ export default function Index() {
 
 function fetchHtml(url) {
       return fetch(url, {
+          mode: 'no-cors',
           headers: {'Access-Control-Allow-Origin':'*', 'Access-Control-Allow-Headers':'Origin, Content-Type, Accept'}
         }).then(response => { return response.text();});
   }
