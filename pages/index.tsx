@@ -45,7 +45,7 @@ export default function Index() {
         }).then(response => { 
           return response.text();
         }).then(html => { 
-          console.log(hmtl)
+          console.log(html)
           let n = getName(html);
           let i = getImage(html);
           if (n && i) {
