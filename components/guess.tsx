@@ -1,10 +1,10 @@
 import React from 'react';
 
+
 const Guess = (props) => {
 
   async function fetchHtml(url) {
     const response = await fetch(url, {
-        crossDomain:true,
         headers: {'Access-Control-Allow-Origin':'*', 'Access-Control-Allow-Headers':'Origin, Content-Type, Accept'}
       });
     const htmlText = await response.text();

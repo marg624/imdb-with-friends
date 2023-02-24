@@ -21,26 +21,31 @@ export default function Index() {
   //useState({"endName": "Mila Kunis" , "endUrl": "https://www.imdb.com/name/nm0005109" , "endImageUrl": "https://m.media-amazon.com/images/M/MV5BODQyNTQyNzY4MV5BMl5BanBnXkFtZTcwODg5MDA3MQ@@._V1_FMjpg_UX1000_.jpg" });
   const [ready, setReady] = useState(false);
 
-  function generateData() {
-    let ran = Math.floor(Math.random() * 6448);
-    let arr = gamePairs.pairs[ran].split(" ");
-    console.log("start: " + arr[0]);
-    console.log("end: " + arr[1]);
-    getActor(arr[0], true);
-    getActor(arr[1], false);
+  function getPair() {
+      let ran = Math.floor(Math.random() * 6976);
+      let arr = gamePairs.pairs[ran].split(" ");
+      console.log("start: " + arr[0]);
+      console.log("end: " + arr[1]);
+      getActor(arr[0], true);
+      getActor(arr[1], false);
+  }
 
- //   setStart({"startName": "Natalie Portman", "startUrl": "https://www.imdb.com/name/nm0000204" , "startImageUrl": "https://m.media-amazon.com/images/M/MV5BYzU0ZGRhZWItMGJlNy00YzlkLWIzOWYtNDA2NzlhMDg3YjMwXkEyXkFqcGdeQXVyMDM2NDM2MQ@@._V1_FMjpg_UX1000_.jpg" });
-  //  setEnd({"endName": "Mila Kunis" , "endUrl": "https://www.imdb.com/name/nm0005109" , "endImageUrl": "https://m.media-amazon.com/images/M/MV5BODQyNTQyNzY4MV5BMl5BanBnXkFtZTcwODg5MDA3MQ@@._V1_FMjpg_UX1000_.jpg" });
+  function generateData() {
+    getPair();
+
     setReady(true);
 
     console.log(start)
     console.log(end)
   }
 
+  function noImage(imageUrl) {
+    return imageUrl.includes("imdb_logo.png");
+  }
+
   function getActor(actor, isStart) {
     let url = "https://www.imdb.com/name/" + actor; 
     fetch(url, {
-          crossDomain:true,
           headers: {'Access-Control-Allow-Origin':'*', 'Access-Control-Allow-Headers':'Origin, Content-Type, Accept'}
         }).then(response => { 
           return response.text();
@@ -60,7 +65,6 @@ export default function Index() {
 
 function fetchHtml(url) {
       return fetch(url, {
-          crossDomain:true,
           headers: {'Access-Control-Allow-Origin':'*', 'Access-Control-Allow-Headers':'Origin, Content-Type, Accept'}
         }).then(response => { return response.text();});
   }
@@ -70,7 +74,7 @@ function fetchHtml(url) {
       const parser = new DOMParser();
       const dom = parser.parseFromString(html, 'text/html');
       const myMetaElement = dom.querySelector("head meta[property='og:title'][content]");
-      if (myMetaElement) {
+      if (myMetaElement && myMetaElement instanceof HTMLMetaElement) {
         return (myMetaElement.content.replace(" - IMDb", ""))
       } else {
         console.log('No matching element found');
@@ -83,7 +87,7 @@ function fetchHtml(url) {
       const parser = new DOMParser();
       const dom = parser.parseFromString(html, 'text/html');
       const myMetaElement = dom.querySelector("head meta[property='og:image'][content]");
-      if (myMetaElement) {
+      if (myMetaElement && myMetaElement instanceof HTMLMetaElement) {
         return (myMetaElement.content)
       } else {
         console.log('No matching element found');

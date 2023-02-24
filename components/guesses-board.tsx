@@ -3,12 +3,37 @@ import Link from 'next/link'
 import Guess from './guess'
 import React, { Component } from "react";
 
-class GuessesBoard extends React.Component {
-  constructor(props) {
-    super(props)
+
+interface Props {
+  startName: string,
+  startUrl: string,
+  startImageUrl: string,
+  endName: string,
+  endUrl: string,
+  endImageUrl: string
+}
+
+interface ActorData {
+  name: string,
+  imdbUrl: string,
+  imageUrl: string,
+};
+
+interface GuessState {
+  guesses: Array<ActorData>,
+  options: Array<String>,
+  start: ActorData,
+  end: ActorData
+};
+
+class GuessesBoard extends React.Component<Props, GuessState> {
+  constructor(props: Props) {
+
+    super(props);
     this.state = {guesses: [], options: [],
-                               start: {name: this.props.startName, imdbUrl: this.props.startUrl, imageUrl: this.props.startImageUrl},
-                               end: {name: this.props.endName, imdbUrl: this.props.endUrl, imageUrl: this.props.endImageUrl}  }
+                               start: {name: props.startName, imdbUrl: props.startUrl, imageUrl: props.startImageUrl},
+                               end: {name: props.endName, imdbUrl: props.endUrl, imageUrl: props.endImageUrl}  }
+    
     this.updateGuess = this.updateGuess.bind(this)
     this.fetchHtml = this.fetchHtml.bind(this)
     this.getOptions = this.getOptions.bind(this)
@@ -18,17 +43,19 @@ class GuessesBoard extends React.Component {
     this.isPerson = this.isPerson.bind(this)
   }
 
+
   updateGuess(name1, id1, imdbUrl1, imageurl1) {
-    console.log("update guess: " + name1)
-    let newArr = [ ... this.state.guesses, {name: name1, imdbUrl: imdbUrl1, imageUrl: imageurl1} ]
-    this.state.guesses = newArr
-    this.getOptions(imdbUrl1)
-    this.setState(this.state)
+    const { guesses } = this.state;
+    let newArr = [ ... guesses, {name: name1, imdbUrl: imdbUrl1, imageUrl: imageurl1} ]
+   // this.state.guesses = newArr
+    let newState = Object.assign(this.state, { guesses: newArr });
+
+    this.getOptions(imdbUrl1);
+    this.setState(newState);
   }
 
   async fetchHtml(url) {
     const response = await fetch(url, {
-        crossDomain:true,
         headers: {'Access-Control-Allow-Origin':'*', 'Access-Control-Allow-Headers':'Origin, Content-Type, Accept'}
       });
     const htmlText = await response.text();
@@ -39,8 +66,9 @@ class GuessesBoard extends React.Component {
     let id = this.getId(url)
     let html = await this.fetchHtml(url);
     let arr = this.isPerson(id) ? this.getTitles(html) : this.getCast(html);
-    this.state.options = arr
-    this.setState(this.state)
+    let newState = Object.assign(this.state, { options: arr });
+
+    this.setState(newState)
   }
 
   isPerson(id) {
@@ -102,12 +130,14 @@ class GuessesBoard extends React.Component {
   }
 
    render() {
-     const lastGuess = this.state.guesses.length == 0 ? this.state.start : this.state.guesses[this.state.guesses.length - 1] 
-     if (this.state.guesses.length == 0) {
-        this.getOptions(lastGuess.imdbUrl)
-     }
+     const {guesses, start} = this.state;
+     const lastGuess = guesses.length == 0 ? start : guesses[guesses.length - 1] 
+     if (guesses.length == 0) {
+      const { imdbUrl } = lastGuess;
+        this.getOptions(imdbUrl);
+      }
 
-     if (this.state.guesses.length > 0 &&
+     if (guesses.length > 0 &&
         this.state.guesses[this.state.guesses.length - 1].imdbUrl == this.state.end.imdbUrl) {
         alert("You WIN!!!")
      }
