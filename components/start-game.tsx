@@ -8,6 +8,7 @@ type Props = {
 const StartGame = ({
   onClick,
 }: Props) => {
+
   return (
     <div className="flex justify-center" >
       <h3 className="text-3xl mb-3 leading-snug">

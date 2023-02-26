@@ -11,10 +11,13 @@ import Game from '../components/game'
 import StartGame from '../components/start-game'
 import gamePairs from '../public/assets/pairs.js';
 import React, {useState} from 'react';
+import { Rings } from 'react-loader-spinner';
+import { trackPromise, usePromiseTracker } from 'react-promise-tracker';
 
 
 export default function Index() {
 
+  const { promiseInProgress } = usePromiseTracker();
 
   const [start, setStart] = useState(null)
   //useState({"startName": "Natalie Portman", "startUrl": "https://www.imdb.com/name/nm0000204" , "startImageUrl": "https://m.media-amazon.com/images/M/MV5BYzU0ZGRhZWItMGJlNy00YzlkLWIzOWYtNDA2NzlhMDg3YjMwXkEyXkFqcGdeQXVyMDM2NDM2MQ@@._V1_FMjpg_UX1000_.jpg" });
@@ -42,19 +45,20 @@ export default function Index() {
     let urlGet = "https://ymlzz52dhqb2nqddsogjrstrnu0ygnyn.lambda-url.us-west-2.on.aws/?id=" + actor;
     let url = "https://www.imdb.com/name/" + actor; 
 
-    fetch(urlGet).then(response => { 
-          return response.text();
-        }).then(html => { 
-          let n = getName(html);
-          let i = getImage(html);
-          if (n && i) {
-            if (isStart) {
-              setStart({"startName": n, "startUrl": url, "startImageUrl": i});
-            } else {
-              setEnd({"endName": n, "endUrl": url, "endImageUrl": i});
+    trackPromise ( 
+      fetch(urlGet).then(response => { 
+            return response.text();
+          }).then(html => { 
+            let n = getName(html);
+            let i = getImage(html);
+            if (n && i) {
+              if (isStart) {
+                setStart({"startName": n, "startUrl": url, "startImageUrl": i});
+              } else {
+                setEnd({"endName": n, "endUrl": url, "endImageUrl": i});
+              }
             }
-          }
-        })
+        }));
   }
 
   function getName(html) {
@@ -83,6 +87,12 @@ export default function Index() {
       }
     }
 
+  const Loading = () => (
+    <div className="flex justify-center items-center ">
+      <Rings color="#5A5A5A" height={180} width={180} />
+    </div>
+);
+
   return (
     <>
       <Layout>
@@ -108,6 +118,7 @@ export default function Index() {
                </span>
          }
          { !ready && <StartGame onClick={generateData} /> }
+         { promiseInProgress && <Loading />  }
         </Container>
       </Layout>
     </>
