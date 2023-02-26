@@ -54,18 +54,16 @@ class GuessesBoard extends React.Component<Props, GuessState> {
     this.setState(newState);
   }
 
-  async fetchHtml(url) {
-    const response = await fetch(url, {
-        mode: 'no-cors',
-        headers: {'Access-Control-Allow-Origin':'*', 'Access-Control-Allow-Headers':'Origin, Content-Type, Accept'}
-      });
+  async fetchHtml(id) {
+    let urlGet = "https://ymlzz52dhqb2nqddsogjrstrnu0ygnyn.lambda-url.us-west-2.on.aws/?id=" + id;
+    const response = await fetch(urlGet);
     const htmlText = await response.text();
     return htmlText;
   }
 
   async getOptions(url) {
     let id = this.getId(url)
-    let html = await this.fetchHtml(url);
+    let html = await this.fetchHtml(id);
     let arr = this.isPerson(id) ? this.getTitles(html) : this.getCast(html);
     let newState = Object.assign(this.state, { options: arr });
 

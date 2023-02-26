@@ -3,11 +3,9 @@ import React from 'react';
 
 const Guess = (props) => {
 
-  async function fetchHtml(url) {
-    const response = await fetch(url, {
-        mode: 'no-cors',
-        headers: {'Access-Control-Allow-Origin':'*', 'Access-Control-Allow-Headers':'Origin, Content-Type, Accept'}
-      });
+  async function fetchHtml(id) {
+    let urlGet = "https://ymlzz52dhqb2nqddsogjrstrnu0ygnyn.lambda-url.us-west-2.on.aws/?id=" + id;
+    const response = await fetch(urlGet);
     const htmlText = await response.text();
     return htmlText;
   }
@@ -37,7 +35,7 @@ const Guess = (props) => {
     let name = e.target[index].textContent
     let url = isPerson(id) ? "https://www.imdb.com/name/" : "https://www.imdb.com/title/"
     url = url + id
-    let html = await fetchHtml(url)
+    let html = await fetchHtml(id)
     let image = getImageUrl(html)
     props.updateGuess(name, id, url, image)
   }

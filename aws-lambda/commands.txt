@@ -1,0 +1,4 @@
+cp out/production/aws-lambda/com/proxy/Main.class com/proxy/
+jar cfm imdbproxy.jar manifest.txt com/proxy/Main.class lib/*
+
+#build Main.class in IntelliJ w/ jdk 11*

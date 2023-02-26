@@ -3,3 +3,5 @@ tsconfig.sublime-workspace
 node_modules/
 .DS_Store
 DS_Store
+aws-lambda/out
+aws-lambda/src

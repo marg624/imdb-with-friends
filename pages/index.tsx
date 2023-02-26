@@ -15,6 +15,7 @@ import React, {useState} from 'react';
 
 export default function Index() {
 
+
   const [start, setStart] = useState(null)
   //useState({"startName": "Natalie Portman", "startUrl": "https://www.imdb.com/name/nm0000204" , "startImageUrl": "https://m.media-amazon.com/images/M/MV5BYzU0ZGRhZWItMGJlNy00YzlkLWIzOWYtNDA2NzlhMDg3YjMwXkEyXkFqcGdeQXVyMDM2NDM2MQ@@._V1_FMjpg_UX1000_.jpg" });
   const [end, setEnd] = useState(null)
@@ -38,15 +39,12 @@ export default function Index() {
   }
 
   function getActor(actor, isStart) {
+    let urlGet = "https://ymlzz52dhqb2nqddsogjrstrnu0ygnyn.lambda-url.us-west-2.on.aws/?id=" + actor;
     let url = "https://www.imdb.com/name/" + actor; 
-    fetch(url, {
-          mode: 'no-cors',
-          headers: {'Access-Control-Allow-Origin':'*', 'Access-Control-Allow-Headers':'Origin, Content-Type, Accept'}
-        }).then(response => { 
-          console.log(response)
+
+    fetch(urlGet).then(response => { 
           return response.text();
         }).then(html => { 
-          console.log(html)
           let n = getName(html);
           let i = getImage(html);
           if (n && i) {
@@ -68,7 +66,6 @@ export default function Index() {
         return (myMetaElement.content.replace(" - IMDb", ""))
       } else {
         console.log('No matching element found');
-        console.log(myMetaElement);
         return null;
       }
     }
@@ -82,7 +79,6 @@ export default function Index() {
         return (myMetaElement.content)
       } else {
         console.log('No matching element found');
-        console.log(myMetaElement);
         return null;
       }
     }
