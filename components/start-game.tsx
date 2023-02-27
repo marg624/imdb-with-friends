@@ -12,7 +12,7 @@ const StartGame = ({
   return (
     <div className="flex justify-center" >
       <h3 className="text-3xl mb-3 leading-snug">
-        <button onClick={onClick}> Generate new game! </button>
+        <button onClick={onClick}> [ Break a leg ] </button>
       </h3>
     </div>
   )

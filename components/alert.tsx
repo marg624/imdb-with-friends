@@ -29,7 +29,7 @@ const Alert = ({ preview }: Props) => {
             </>
           ) : (
             <>
-              The site is still a WIP, players and friends beware!
+              <strong><a href="https://with-friends-collection.vercel.app/">w/ friends </a> </strong> A collection of games you can play with friends.
             </>
           )}
         </div>

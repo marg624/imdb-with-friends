@@ -25,16 +25,40 @@ export default function Index() {
   //useState({"endName": "Mila Kunis" , "endUrl": "https://www.imdb.com/name/nm0005109" , "endImageUrl": "https://m.media-amazon.com/images/M/MV5BODQyNTQyNzY4MV5BMl5BanBnXkFtZTcwODg5MDA3MQ@@._V1_FMjpg_UX1000_.jpg" });
   const [ready, setReady] = useState(false);
 
+  const validIds = 6327;
+
   function getPair() {
-      let ran = Math.floor(Math.random() * 6327);
+      let ran = Math.floor(Math.random() * validIds);
       let arr = gamePairs.pairs[ran].split(" ");
       getActor(arr[0], true);
       getActor(arr[1], false);
   }
 
+ function getPairById(id) {
+      if (!gamePairs.pairs[id]) {
+        return false;
+      } 
+      let arr = gamePairs.pairs[id].split(" ");
+      getActor(arr[0], true);
+      getActor(arr[1], false);
+      return true;
+  }
+
   function generateData() {
-    getPair();
-    setReady(true);
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    let enteredId = urlParams.get('game');
+    if (enteredId) {
+      let id = parseInt(enteredId)
+      if (id && getPairById(id)) {
+        setReady(true);
+      } else {
+        alert("Invalid game id: " + enteredId + "\nEnter a valid game URL or go to home page for a random game.");
+      }
+    } else {
+      getPair();
+      setReady(true);
+    }
   }
 
   function getActor(actor, isStart) {
