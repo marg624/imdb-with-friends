@@ -20,8 +20,8 @@ const Game = ({
 }: Props) => {
   return (
     <div className="flex justify-center" >
-      <h3 className="text-3xl mb-3 leading-snug">
-        <table style={{ width: 500}}  >
+      <h3 className="text-2xl mb-2 leading-snug">
+        <table style={{ width: "100%"}}  >
           <thead>
             <tr>
                <td className=" justify-between"> 

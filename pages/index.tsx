@@ -26,7 +26,7 @@ export default function Index() {
   const [ready, setReady] = useState(false);
 
   function getPair() {
-      let ran = Math.floor(Math.random() * 6976);
+      let ran = Math.floor(Math.random() * 6327);
       let arr = gamePairs.pairs[ran].split(" ");
       getActor(arr[0], true);
       getActor(arr[1], false);
@@ -35,10 +35,6 @@ export default function Index() {
   function generateData() {
     getPair();
     setReady(true);
-  }
-
-  function noImage(imageUrl) {
-    return imageUrl.includes("imdb_logo.png");
   }
 
   function getActor(actor, isStart) {
