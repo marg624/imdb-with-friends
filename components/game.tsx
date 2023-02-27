@@ -21,7 +21,7 @@ const Game = ({
   return (
     <div className="flex justify-center" >
       <h3 className="text-2xl mb-2 leading-snug">
-        <table class="table-fixed" >
+        <table className="table-fixed" >
           <thead>
             <tr>
                <td className="text-center justify-between"> 
