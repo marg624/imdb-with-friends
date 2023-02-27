@@ -2,6 +2,7 @@ import CoverImage from './cover-image'
 import Link from 'next/link'
 import Guess from './guess'
 import React, { Component } from "react";
+import arrow from '../public/assets/arrow-icon.png';
 
 
 interface Props {
@@ -144,14 +145,21 @@ class GuessesBoard extends React.Component<Props, GuessState> {
      return (
       <section className="flex justify-center">
         <div className="mb-8 md:mb-16">
+        <table><tbody><tr> 
             {Object.keys(this.state.guesses).map((key, index) => {
               let state1 = this.state.guesses[key]
               return (<span> 
+                <td align="center" valign="middle">
                   <Link href={state1.imdbUrl} className="hover:underline">{state1.name}</Link>
                   <img src={state1.imageUrl} width="75px" /> 
+                </td>
+                <td align="center" valign="middle"> 
+                   <img src={arrow.src} width="50px" /> 
+                </td>
                 </span>
                  );
             })}
+          </tr></tbody></table>  
           <br/>  
           <Guess updateGuess={this.updateGuess} options={this.state.options} />
         </div>

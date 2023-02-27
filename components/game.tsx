@@ -21,18 +21,18 @@ const Game = ({
   return (
     <div className="flex justify-center" >
       <h3 className="text-2xl mb-2 leading-snug">
-        <table style={{ width: "100%"}}  >
+        <table class="table-fixed" >
           <thead>
             <tr>
-               <td className=" justify-between"> 
+               <td className="text-center justify-between"> 
                  <Link
                   href={startUrl}
                   className="hover:underline">
                   {startName}
                   </Link>
                 </td>
-                <td className="flex justify-between"></td>
-                <td className="justify-between">
+                <td className="justify-between"> </td>
+                <td className="text-center justify-between">
                   <Link
                     href={endUrl}
                     className="hover:underline">
@@ -43,9 +43,9 @@ const Game = ({
           </thead>
           <tbody>
             <tr className="justify-between">
-              <td ><img src={startImageUrl} width="100px" /></td>
-              <td > <img src={arrow.src} width="100px" /></td>
-              <td ><img src={endImageUrl} width="100px" /></td>
+              <td align="center"><img src={startImageUrl} width="60%" max-width="300px"  /></td>
+              <td align="center"><img src={arrow.src} width="80%" max-width="150px" /></td>
+              <td align="center"><img src={endImageUrl} width="60%" max-width="300px"  /></td>
             </tr>
           </tbody> 
         </table>
