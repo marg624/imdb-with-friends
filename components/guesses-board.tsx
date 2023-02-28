@@ -24,14 +24,15 @@ interface GuessState {
   guesses: Array<ActorData>,
   options: Array<String>,
   start: ActorData,
-  end: ActorData
+  end: ActorData,
+  win: boolean
 };
 
 class GuessesBoard extends React.Component<Props, GuessState> {
   constructor(props: Props) {
 
     super(props);
-    this.state = {guesses: [], options: [],
+    this.state = {win: false, guesses: [], options: [],
                                start: {name: props.startName, imdbUrl: props.startUrl, imageUrl: props.startImageUrl},
                                end: {name: props.endName, imdbUrl: props.endUrl, imageUrl: props.endImageUrl}  }
     
@@ -46,13 +47,23 @@ class GuessesBoard extends React.Component<Props, GuessState> {
 
 
   updateGuess(name1, id1, imdbUrl1, imageurl1) {
-    const { guesses } = this.state;
-    let newArr = [ ... guesses, {name: name1, imdbUrl: imdbUrl1, imageUrl: imageurl1} ]
-
-    let newState = Object.assign(this.state, { guesses: newArr });
-
-    this.getOptions(imdbUrl1);
-    this.setState(newState);
+    if (imdbUrl1 == this.state.end.imdbUrl) {
+      let guessLength = this.state.guesses.length;
+      if (guessLength <= 6) {
+          let plural = (guessLength == 1) ? " connection." : " connections.";
+          alert("Congrats! You discovered a path of " + guessLength + plural)
+      } else {
+          alert("Congrats! You discovered a path of " + guessLength + " connections. However, not to burst your bubble, but there exists a shorter way.")
+      }
+      let newState = Object.assign(this.state, {win: true});
+      this.setState(newState)
+    } else {
+      const { guesses } = this.state;
+      let newArr = [ ... guesses, {name: name1, imdbUrl: imdbUrl1, imageUrl: imageurl1} ]
+      let newState = Object.assign(this.state, { guesses: newArr });
+      this.getOptions(imdbUrl1);
+      this.setState(newState);
+    }
   }
 
   async fetchHtml(id) {
@@ -130,17 +141,12 @@ class GuessesBoard extends React.Component<Props, GuessState> {
   }
 
    render() {
-     const {guesses, start} = this.state;
+     const {win, guesses, start} = this.state;
      const lastGuess = guesses.length == 0 ? start : guesses[guesses.length - 1] 
      if (guesses.length == 0) {
-      const { imdbUrl } = lastGuess;
+        const { imdbUrl } = lastGuess;
         this.getOptions(imdbUrl);
       }
-
-     if (guesses.length > 0 &&
-        this.state.guesses[this.state.guesses.length - 1].imdbUrl == this.state.end.imdbUrl) {
-        alert("You WIN!!!")
-     }
 
      return (
       <section className="flex justify-center">
@@ -161,7 +167,7 @@ class GuessesBoard extends React.Component<Props, GuessState> {
             })}
           </tr></tbody></table>  
           <br/>  
-          <Guess updateGuess={this.updateGuess} options={this.state.options} />
+          { !this.state.win && <Guess updateGuess={this.updateGuess} options={this.state.options} /> }
         </div>
       </section>
     )}
