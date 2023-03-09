@@ -1,4 +1,3 @@
-import CoverImage from './cover-image'
 import Link from 'next/link'
 import Guess from './guess'
 import React, { Component } from "react";
