@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import arrow from '../public/assets/arrow-icon.png';
-import mainImage from '../public/assets/imdb-cover.png';
+import mainImage from '../public/assets/cover.png';
 
 type Props = {
     onClick: React.MouseEventHandler<HTMLButtonElement>
