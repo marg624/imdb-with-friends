@@ -21,7 +21,7 @@ const Game = ({
   return (
     <div className="flex justify-center" >
       <h3 className="text-2xl mb-2 leading-snug">
-        <table className="table-fixed" >
+        <table className="table-fixed shadow-md border-separate p-8" >
           <thead>
             <tr>
                <td className="text-center justify-between"> 
@@ -43,9 +43,9 @@ const Game = ({
           </thead>
           <tbody>
             <tr className="justify-between">
-              <td align="center"><img src={startImageUrl} width="60%" max-width="300px"  /></td>
-              <td align="center"><img src={arrow.src} width="80%" max-width="150px" /></td>
-              <td align="center"><img src={endImageUrl} width="60%" max-width="300px"  /></td>
+              <td align="center"><div className="bg-white-300"><img src={startImageUrl} className="object-contain h-48 w-48" /><br/></div></td>
+              <td align="center"><img src={arrow.src} className="object-contain h-40 w-40" /></td>
+              <td align="center"><div className="bg-white-300"><img src={endImageUrl} width="60%" max-width="300px" className="object-contain h-40 w-40" /><br/></div></td>
             </tr>
           </tbody> 
         </table>

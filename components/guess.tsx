@@ -31,21 +31,23 @@ const Guess = (props) => {
 
   async function validate(e) {
     let index = e.target.selectedIndex
-    let id = e.target[index].value
-    let name = e.target[index].textContent
-    let url = isPerson(id) ? "https://www.imdb.com/name/" : "https://www.imdb.com/title/"
-    url = url + id
-    let html = await fetchHtml(id)
-    let image = getImageUrl(html)
-    props.updateGuess(name, id, url, image)
+    if (index != 0) {
+      let id = e.target[index].value
+      let name = e.target[index].textContent
+      let url = isPerson(id) ? "https://www.imdb.com/name/" : "https://www.imdb.com/title/"
+      url = url + id
+      let html = await fetchHtml(id)
+      let image = getImageUrl(html)
+      props.updateGuess(name, id, url, image)
+    }
   }
 
 
   return (
       <section>
         <div className="mb-8 md:mb-16">
-        <select onChange={(e) => validate(e)}>
-           <option key='' value=''>
+        <select onChange={(e) => validate(e)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+           <option selected>
               --- choose ---
            </option>
           {Object.keys(props.options).map((key, index) => {

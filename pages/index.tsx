@@ -1,4 +1,5 @@
 import Container from '../components/container'
+import OptionsButton from '../components/options-button'
 import Intro from '../components/intro'
 import Layout from '../components/layout'
 import Head from 'next/head'
@@ -136,6 +137,7 @@ export default function Index() {
          }
          { !ready && <StartGame onClick={generateData} /> }
          { promiseInProgress && <Loading />  }
+         <OptionsButton />
         </Container>
       </Layout>
     </>
