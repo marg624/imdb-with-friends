@@ -37,8 +37,8 @@ const InfoOverlay = ({
               left: '50%',
               transform: 'translate(-50%, -50%)',
               textAlign: 'left',
-              width: '65%',
-              height: '65%'
+              width: '75%',
+              height: '75%'
           }}>
             <div style={{position: 'absolute', top: 5, right: 15}} onClick={toggleFunc} > <h1 className="text-3xl mb-4 cursor-pointer text-slate-300">x</h1> </div>
             { !showEnd &&  <HowTo /> }
