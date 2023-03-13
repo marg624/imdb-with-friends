@@ -50,6 +50,7 @@ const Game = ({
           </tbody> 
         </table>
       </h3>
+
     </div>
   )
 }

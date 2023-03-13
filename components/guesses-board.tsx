@@ -2,15 +2,18 @@ import Link from 'next/link'
 import Guess from './guess'
 import React, { Component } from "react";
 import arrow from '../public/assets/arrow-icon.png';
+import InfoOverlay from './info-overlay'
 
 
 interface Props {
   startName: string,
   startUrl: string,
   startImageUrl: string,
+  startId: string,
   endName: string,
   endUrl: string,
-  endImageUrl: string
+  endImageUrl: string,
+  endId: string
 }
 
 interface ActorData {
@@ -24,7 +27,8 @@ interface GuessState {
   options: Array<String>,
   start: ActorData,
   end: ActorData,
-  win: boolean
+  win: boolean,
+  winMsg?: string,
 };
 
 class GuessesBoard extends React.Component<Props, GuessState> {
@@ -42,24 +46,28 @@ class GuessesBoard extends React.Component<Props, GuessState> {
     this.getTitles = this.getTitles.bind(this)
     this.getCast = this.getCast.bind(this)
     this.isPerson = this.isPerson.bind(this)
+    this.clearMsgFunc = this.clearMsgFunc.bind(this)
+
   }
 
 
   updateGuess(name1, id1, imdbUrl1, imageurl1) {
+    let newState = Object.assign(this.state);
     if (imdbUrl1 == this.state.end.imdbUrl) {
-      let guessLength = this.state.guesses.length;
+      let guessLength = this.state.guesses.length + 1;
+      let msg = ""
       if (guessLength <= 6) {
           let plural = (guessLength == 1) ? " connection." : " connections.";
-          alert("Congrats! You discovered a path of " + guessLength + plural)
+          msg = "You discovered a path of " + guessLength + plural
       } else {
-          alert("Congrats! You discovered a path of " + guessLength + " connections. However, not to burst your bubble, but there exists a shorter way.")
+          msg = "You discovered a path of " + guessLength + " connections. However, not to burst your bubble, but there exists a shorter way."
       }
-      let newState = Object.assign(this.state, {win: true});
+      newState = Object.assign(newState, {win: true}, {winMsg: msg});
       this.setState(newState)
     } else {
       const { guesses } = this.state;
       let newArr = [ ... guesses, {name: name1, imdbUrl: imdbUrl1, imageUrl: imageurl1} ]
-      let newState = Object.assign(this.state, { guesses: newArr });
+      newState = Object.assign(newState, { guesses: newArr });
       this.getOptions(imdbUrl1);
       this.setState(newState);
     }
@@ -139,7 +147,13 @@ class GuessesBoard extends React.Component<Props, GuessState> {
     }
   }
 
+  clearMsgFunc() {
+    let newState = Object.assign(this.state, { winMsg: null });
+    this.setState(newState)
+  }
+
    render() {
+
      const {win, guesses, start} = this.state;
      const lastGuess = guesses.length == 0 ? start : guesses[guesses.length - 1] 
      if (guesses.length == 0) {
@@ -167,6 +181,7 @@ class GuessesBoard extends React.Component<Props, GuessState> {
           </tr></tbody></table>  
           <br/>  
           { !this.state.win && <Guess updateGuess={this.updateGuess} options={this.state.options} /> }
+          { (this.state.win && this.state.winMsg) && <InfoOverlay toggleFunc={this.clearMsgFunc} showEnd={true} endMsg={this.state.winMsg} start={this.props.startId} end={this.props.endId} startImageUrl={this.props.startImageUrl} endImageUrl={this.props.endImageUrl} /> }
         </div>
       </section>
     )}

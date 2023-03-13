@@ -31,7 +31,7 @@ export default function Index() {
       let arr = gamePairs.pairs[ran].split(" ");
       let start = arr[0];
       let end = arr[1];
-      
+
       if (searchParams.get('start') && searchParams.get('end')) {
         start = searchParams.get('start');
         end = searchParams.get('end');
@@ -80,9 +80,9 @@ export default function Index() {
             let i = getImage(html);
             if (n && i) {
               if (isStart) {
-                setStart({"startName": n, "startUrl": url, "startImageUrl": i});
+                setStart({"startName": n, "startUrl": url, "startImageUrl": i, "startId":actor });
               } else {
-                setEnd({"endName": n, "endUrl": url, "endImageUrl": i});
+                setEnd({"endName": n, "endUrl": url, "endImageUrl": i, "endId":actor });
               }
             }
         }));
@@ -132,16 +132,19 @@ export default function Index() {
               <span>
               <Game startName={start["startName"]} 
                 startUrl={start["startUrl"]} 
-                startImageUrl={start["startImageUrl"]} 
+                startImageUrl={start["startImageUrl"]}
                 endName={end["endName"]} 
                 endUrl={end["endUrl"]} 
-                endImageUrl= {end["endImageUrl"]} />
+                endImageUrl= {end["endImageUrl"]}
+                 />
               <GuessesBoard startName={start["startName"]} 
                 startUrl={start["startUrl"]} 
                 startImageUrl={start["startImageUrl"]} 
+                startId={start["startId"]}
                 endName={end["endName"]} 
                 endUrl={end["endUrl"]} 
-                endImageUrl= {end["endImageUrl"]} />
+                endImageUrl= {end["endImageUrl"]} 
+                endId= {end["endId"]} />
                </span>
          }
          { !ready && <StartGame onClick={generateData} /> }

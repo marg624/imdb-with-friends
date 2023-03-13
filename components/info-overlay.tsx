@@ -3,9 +3,22 @@ import Link from 'next/link'
 import Image from 'next/image'
 import React, {useState} from 'react'
 import howto0 from '../public/assets/howto/howto0.png';
+import HowTo from './how-to';
+import EndGame from './end-game';
 
+type Props = {
+  showEnd?: boolean
+  endMsg?: string
+  start?: string
+  end?: string
+  startImageUrl?: string
+  endImageUrl?: string
+  toggleFunc: React.MouseEventHandler<HTMLDivElement>
+}
 
-const InfoOverlay = (props) => {
+const InfoOverlay = ({
+  showEnd, endMsg, start, end, startImageUrl, endImageUrl, toggleFunc
+}: Props) => {
 
   return (
         <div className="flex justify-center bg-black bg-opacity-50" style={{
@@ -16,7 +29,7 @@ const InfoOverlay = (props) => {
           textAlign: 'center',
           width: '100%',
           height: '100%'
-        }} onClick={props.toggleFunc} >
+        }}>
 
            <div className="overflow-y-scroll bg-white shadow-2xl border-separate p-8 rounded-md" style={{
               position: 'fixed',
@@ -27,24 +40,9 @@ const InfoOverlay = (props) => {
               width: '65%',
               height: '65%'
           }}>
-              <h3 className="text-3xl mb-4 leading-snug">
-              How To Play
-              </h3>
-              Find the connection between the 2 actors. You will be given options to choose from that take you from an actor to a work of art and vice versa.
-              <br/><br/>
-              For example:
-              <br/>
-                <img src={howto0.src}  /> 
-              <br/>
-              Connecting Natalie Portman to Angelina Jolie by the following: 
-                  <ul className="list-inside list-disc">
-                    <li>Natalie Portman <em>was in</em> Black Swan</li>
-                    <li>Black Swan <em>starred</em> Winnona Ryder</li>
-                    <li>Winnona Ryder <em>was in</em> Girl, Interrupted</li>
-                    <li>Girl, Interrupted <em>starred</em> Angelina Jolie</li>
-                  </ul> 
-           
-
+            <div style={{position: 'absolute', top: 5, right: 15}} onClick={toggleFunc} > <h1 className="text-3xl mb-4 cursor-pointer text-slate-300">x</h1> </div>
+            { !showEnd &&  <HowTo /> }
+            { (showEnd && endMsg && start && end && startImageUrl && endImageUrl ) && <EndGame endMsg={endMsg} start={start} end={end} startImageUrl={startImageUrl} endImageUrl={endImageUrl} /> }
           </div>
        </div>
   )
