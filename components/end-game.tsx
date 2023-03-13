@@ -28,8 +28,8 @@ const EndGame = ({
                 <tbody>
                   <tr className="justify-between">
                     <td align="center"><div className="bg-white-300"><img src={startImageUrl} className="object-contain h-48 w-48" /><br/></div></td>
-                    <td align="center"><img src={arrow.src} className="object-contain h-40 w-40" /></td>
-                    <td align="center"><div className="bg-white-300"><img src={endImageUrl} width="60%" max-width="300px" className="object-contain h-40 w-40" /><br/></div></td>
+                    <td align="center"><div className="bg-white-300"><img src={arrow.src} className="object-contain h-24 w-24" /></div></td>
+                    <td align="center"><div className="bg-white-300"><img src={endImageUrl} className="object-contain h-48 w-48" /><br/></div></td>
                   </tr>
                   <tr> <td/>
                     <td className="text-center"><em>{endMsg}</em><br/></td>

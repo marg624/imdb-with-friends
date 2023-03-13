@@ -31,7 +31,7 @@ const InfoOverlay = ({
           height: '100%'
         }}>
 
-           <div className="overflow-y-scroll bg-white shadow-2xl border-separate p-8 rounded-md" style={{
+           <div className="overflow-scroll bg-white shadow-2xl border-separate p-8 rounded-md" style={{
               position: 'fixed',
               top: '50%',
               left: '50%',
