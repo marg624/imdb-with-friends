@@ -12,7 +12,6 @@ import React, {useState} from 'react';
 import { Rings } from 'react-loader-spinner';
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker';
 
-
 export default function Index() {
 
   const { promiseInProgress } = usePromiseTracker();
@@ -26,11 +25,21 @@ export default function Index() {
   const validIds = 6327;
 
   function getPair() {
+      const searchParams = new URLSearchParams(window.location.search)
+
       let ran = Math.floor(Math.random() * validIds);
       let arr = gamePairs.pairs[ran].split(" ");
-      getActor(arr[0], true);
-      getActor(arr[1], false);
-  }
+      let start = arr[0];
+      let end = arr[1];
+      
+      if (searchParams.get('start') && searchParams.get('end')) {
+        start = searchParams.get('start');
+        end = searchParams.get('end');
+      }
+
+      getActor(start, true);
+      getActor(end, false);
+  } 
 
  function getPairById(id) {
       if (!gamePairs.pairs[id]) {
