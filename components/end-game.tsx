@@ -49,11 +49,11 @@ const EndGame = ({
               <br/>
               <em>{endMsg}</em><br/>
               
-                <span className="flex">
+                <span className="flex items-center justify-between px-4 py-2">
                 <CopyToClipboard text={shareable} onCopy={() => sayCopied()}>
                  <img src={share.src} className="object-contain h-10 w-10 cursor-pointer " />  
                  </CopyToClipboard>  
-                 <span className="flex items-center justify-between px-4 py-2">
+                 <span className="justify-between px-4 py-2">
                  Share this game and see if your friends can get it in fewer connections!
                  </span>
                 </span> 
