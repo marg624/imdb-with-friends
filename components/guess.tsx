@@ -1,7 +1,9 @@
 import React from 'react';
-
+import { trackPromise, usePromiseTracker } from 'react-promise-tracker';
 
 const Guess = (props) => {
+
+  const { promiseInProgress } = usePromiseTracker();
 
   async function fetchHtml(id) {
     let urlGet = "https://ymlzz52dhqb2nqddsogjrstrnu0ygnyn.lambda-url.us-west-2.on.aws/?id=" + id;
@@ -29,6 +31,12 @@ const Guess = (props) => {
     }
   }
 
+  function onChoose(e) {
+    trackPromise ( 
+        validate(e)
+      );
+  }
+
   async function validate(e) {
     let index = e.target.selectedIndex
     if (index != 0) {
@@ -45,21 +53,23 @@ const Guess = (props) => {
 
   return (
       <section>
-        <div className="mb-8 md:mb-16">
-        <select onChange={(e) => validate(e)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-           <option selected>
-              --- choose ---
-           </option>
-          {Object.keys(props.options).map((key, index) => {
-            let name = props.options[key]
-            return (
-              <option key={key} value={key}>
-                {name}
-               </option>
-               );
-          })}
-        </select>
-        </div>
+      { !promiseInProgress && 
+          <div className="mb-8 md:mb-16">
+          <select onChange={(e) => onChoose(e)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+             <option selected>
+                --- choose ---
+             </option>
+            {Object.keys(props.options).map((key, index) => {
+              let name = props.options[key]
+              return (
+                <option key={key} value={key}>
+                  {name}
+                 </option>
+                 );
+            })}
+          </select>
+          </div>
+      }
       </section>
     );
 }

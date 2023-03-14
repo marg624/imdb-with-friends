@@ -9,7 +9,7 @@ import Game from '../components/game'
 import StartGame from '../components/start-game'
 import gamePairs from '../public/assets/pairs.js';
 import React, {useState} from 'react';
-import { Rings } from 'react-loader-spinner';
+import { Rings, MutatingDots } from 'react-loader-spinner';
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker';
 
 export default function Index() {
@@ -116,7 +116,18 @@ export default function Index() {
 
   const Loading = () => (
     <div className="flex justify-center items-center ">
-      <Rings color="#5A5A5A" height={180} width={180} />
+      <MutatingDots 
+  height="100"
+  width="100"
+  color="#5A5A5A"
+  secondaryColor= '#5A5A5A'
+  radius='12.5'
+  ariaLabel="mutating-dots-loading"
+  wrapperStyle={{}}
+  wrapperClass=""
+  visible={true}
+ />
+      
     </div>
 );
 
