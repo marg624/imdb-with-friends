@@ -9,6 +9,7 @@ type Props = {
   endName: string
   endUrl: string
   endImageUrl: string
+  onClick: Function
 }
 
 const Game = ({
@@ -18,7 +19,13 @@ const Game = ({
   endName,
   endUrl,
   endImageUrl,
+  onClick
 }: Props) => {
+
+  function refresh() {
+    onClick()
+  }
+
   return (
     <div className="flex justify-center " > 
       <h3 className="text-2xl mb-2 leading-snug">
@@ -51,9 +58,8 @@ const Game = ({
           </tbody> 
         </table>
       </h3>
-      <a href="https://imdb-with-friends.vercel.app/">
-        <img src={redo.src} className="object-contain h-8 w-8 cursor-pointer"  style={{position: 'relative', top: 10, right: 40}}  />
-      </a>  
+        <img src={redo.src} className="object-contain h-8 w-8 cursor-pointer"  style={{position: 'relative', top: 10, right: 40}} onClick={refresh} /> 
+
     </div>
   )
 }

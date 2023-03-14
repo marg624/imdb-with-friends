@@ -14,7 +14,12 @@ import { trackPromise, usePromiseTracker } from 'react-promise-tracker';
 
 export default function Index() {
 
-  const { promiseInProgress } = usePromiseTracker();
+  const { promiseInProgress: promiseInProgress1 } = usePromiseTracker();
+
+
+  const [respawn, setRespawn] = useState(false)
+  const [key, setKey] = useState(0);
+  const [key2, setKey2] = useState(1);
 
   const [start, setStart] = useState(null)
   //useState({"startName": "Natalie Portman", "startUrl": "https://www.imdb.com/name/nm0000204" , "startImageUrl": "https://m.media-amazon.com/images/M/MV5BYzU0ZGRhZWItMGJlNy00YzlkLWIzOWYtNDA2NzlhMDg3YjMwXkEyXkFqcGdeQXVyMDM2NDM2MQ@@._V1_FMjpg_UX1000_.jpg" });
@@ -51,6 +56,14 @@ export default function Index() {
       return true;
   }
 
+  function respawnData() {
+    generateData()
+    setKey(key + 1);
+    setKey2(key2 + 1);
+    setRespawn(true)
+    setRespawn(false)
+  }
+
   function generateData() {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
@@ -80,12 +93,13 @@ export default function Index() {
             let i = getImage(html);
             if (n && i) {
               if (isStart) {
-                setStart({"startName": n, "startUrl": url, "startImageUrl": i, "startId":actor });
+                setStart({"startName": n, "startUrl": url, "startImageUrl": i, "startId":actor , "key": key});
               } else {
                 setEnd({"endName": n, "endUrl": url, "endImageUrl": i, "endId":actor });
               }
             }
-        }));
+        })
+    );
   }
 
   function getName(html) {
@@ -117,19 +131,20 @@ export default function Index() {
   const Loading = () => (
     <div className="flex justify-center items-center ">
       <MutatingDots 
-  height="100"
-  width="100"
-  color="#5A5A5A"
-  secondaryColor= '#5A5A5A'
-  radius='12.5'
-  ariaLabel="mutating-dots-loading"
-  wrapperStyle={{}}
-  wrapperClass=""
-  visible={true}
- />
+        height="100"
+        width="100"
+        color="#5A5A5A"
+        secondaryColor= '#5A5A5A'
+        radius='12.5'
+        ariaLabel="mutating-dots-loading"
+        wrapperStyle={{}}
+        wrapperClass=""
+        visible={true}
+    />
       
     </div>
-);
+  );
+
 
   return (
     <>
@@ -141,25 +156,38 @@ export default function Index() {
           <Intro />
           { (ready && start && end) &&
               <span>
-              <Game startName={start["startName"]} 
+               <Game startName={start["startName"]} 
                 startUrl={start["startUrl"]} 
                 startImageUrl={start["startImageUrl"]}
                 endName={end["endName"]} 
                 endUrl={end["endUrl"]} 
                 endImageUrl= {end["endImageUrl"]}
-                 />
-              <GuessesBoard startName={start["startName"]} 
+                onClick={respawnData} /> 
+              
+                
+               { (!respawn && !promiseInProgress1) && <GuessesBoard key={key} startName={start["startName"]} 
                 startUrl={start["startUrl"]} 
                 startImageUrl={start["startImageUrl"]} 
                 startId={start["startId"]}
                 endName={end["endName"]} 
                 endUrl={end["endUrl"]} 
                 endImageUrl= {end["endImageUrl"]} 
-                endId= {end["endId"]} />
+                endId= {end["endId"]} /> }
+
                </span>
          }
-         { !ready && <StartGame onClick={generateData} /> }
-         { promiseInProgress && <Loading />  }
+         { (!ready && !promiseInProgress1) && <StartGame onClick={generateData} /> }
+         { promiseInProgress1 &&
+          <div className="flex justify-center bg-black bg-opacity-50" style={{
+            position: 'fixed',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            textAlign: 'center',
+            width: '100%',
+            height: '100%'
+          }}>
+          <Loading /> </div> }
          <OptionsButton />
         </Container>
       </Layout>

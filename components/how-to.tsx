@@ -13,6 +13,9 @@ const HowTo = (props) => {
               How To Play
               </h3>
               Find the connection between the 2 actors. You will be given options to choose from that take you from an actor to a work of art and vice versa.
+              <br/>
+              Give up? Don't recognize the actors? Click the refresh button on the top right corner to regenerate a pair of actors!
+
               <br/><br/>
               For example:
               <br/>
@@ -25,7 +28,6 @@ const HowTo = (props) => {
                     <li>Winnona Ryder <em>was in</em> Girl, Interrupted</li>
                     <li>Girl, Interrupted <em>starred</em> Angelina Jolie</li>
                   </ul> 
-           
 
           </div>
   )

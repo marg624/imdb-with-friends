@@ -3,8 +3,6 @@ import Guess from './guess'
 import React, { Component } from "react";
 import arrow from '../public/assets/arrow-icon.png';
 import InfoOverlay from './info-overlay'
-import { trackPromise } from 'react-promise-tracker';
-
 
 interface Props {
   startName: string,
@@ -50,9 +48,7 @@ class GuessesBoard extends React.Component<Props, GuessState> {
     this.getCast = this.getCast.bind(this)
     this.isPerson = this.isPerson.bind(this)
     this.clearMsgFunc = this.clearMsgFunc.bind(this)
-
   }
-
 
   updateGuess(name1, id1, imdbUrl1, imageurl1) {
     let newState = Object.assign(this.state);

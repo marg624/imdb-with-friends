@@ -1,9 +1,8 @@
-import React from 'react';
-import { trackPromise, usePromiseTracker } from 'react-promise-tracker';
+import React, {useState} from 'react';
+import { Rings, MutatingDots } from 'react-loader-spinner';
 
 const Guess = (props) => {
-
-  const { promiseInProgress } = usePromiseTracker();
+  const [inProgress, setInProgress] = useState(false)
 
   async function fetchHtml(id) {
     let urlGet = "https://ymlzz52dhqb2nqddsogjrstrnu0ygnyn.lambda-url.us-west-2.on.aws/?id=" + id;
@@ -31,10 +30,10 @@ const Guess = (props) => {
     }
   }
 
-  function onChoose(e) {
-    trackPromise ( 
-        validate(e)
-      );
+  async function onChoose(e) {
+    setInProgress(true)
+    await validate(e)
+    setInProgress(false)
   }
 
   async function validate(e) {
@@ -50,13 +49,29 @@ const Guess = (props) => {
     }
   }
 
+  const Loading = () => (
+    <div className="flex justify-center items-center ">
+      <MutatingDots 
+        height="80"
+        width="80"
+        color="#5A5A5A"
+        secondaryColor= '#5A5A5A'
+        radius='8'
+        ariaLabel="mutating-dots-loading"
+        wrapperStyle={{}}
+        wrapperClass=""
+        visible={true}
+    />
+      
+    </div>
+  );
 
   return (
       <section>
-      { !promiseInProgress && 
+      { !inProgress && 
           <div className="mb-8 md:mb-16">
           <select onChange={(e) => onChoose(e)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-             <option selected>
+             <option value="">
                 --- choose ---
              </option>
             {Object.keys(props.options).map((key, index) => {
@@ -70,6 +85,8 @@ const Guess = (props) => {
           </select>
           </div>
       }
+      {inProgress && <Loading />}
+
       </section>
     );
 }
