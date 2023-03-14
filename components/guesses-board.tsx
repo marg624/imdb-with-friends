@@ -3,6 +3,7 @@ import Guess from './guess'
 import React, { Component } from "react";
 import arrow from '../public/assets/arrow-icon.png';
 import InfoOverlay from './info-overlay'
+import { trackPromise } from 'react-promise-tracker';
 
 
 interface Props {
@@ -42,6 +43,7 @@ class GuessesBoard extends React.Component<Props, GuessState> {
     this.updateGuess = this.updateGuess.bind(this)
     this.fetchHtml = this.fetchHtml.bind(this)
     this.getOptions = this.getOptions.bind(this)
+    this.getOptionsHelper = this.getOptionsHelper.bind(this)
     this.getId = this.getId.bind(this)
     this.getTitles = this.getTitles.bind(this)
     this.getCast = this.getCast.bind(this)
@@ -68,8 +70,7 @@ class GuessesBoard extends React.Component<Props, GuessState> {
       const { guesses } = this.state;
       let newArr = [ ... guesses, {name: name1, imdbUrl: imdbUrl1, imageUrl: imageurl1} ]
       newState = Object.assign(newState, { guesses: newArr });
-      this.getOptions(imdbUrl1);
-      this.setState(newState);
+      this.getOptionsHelper(imdbUrl1, newState);
     }
   }
 
@@ -80,14 +81,25 @@ class GuessesBoard extends React.Component<Props, GuessState> {
     return htmlText;
   }
 
+
   async getOptions(url) {
+    this.getOptionsHelper(url, null)
+  }
+
+
+  async getOptionsHelper(url, state) {
     let id = this.getId(url)
     let html = await this.fetchHtml(id);
     let arr = this.isPerson(id) ? this.getTitles(html) : this.getCast(html);
-    let newState = Object.assign(this.state, { options: arr });
+    if (!state) {
+      state = this.state;
+    }
+    let newState = Object.assign(state, { options: arr });
 
     this.setState(newState)
   }
+
+
 
   isPerson(id) {
     return id.includes("nm")
@@ -154,9 +166,10 @@ class GuessesBoard extends React.Component<Props, GuessState> {
 
    render() {
 
-     const {win, guesses, start} = this.state;
+     const {win, guesses, start, options} = this.state;
      const lastGuess = guesses.length == 0 ? start : guesses[guesses.length - 1] 
-     if (guesses.length == 0) {
+
+     if (guesses.length == 0 && options.length == 0) {
         const { imdbUrl } = lastGuess;
         this.getOptions(imdbUrl);
       }
