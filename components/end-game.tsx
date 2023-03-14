@@ -54,13 +54,16 @@ const EndGame = ({
                  <img src={share.src} className="object-contain h-10 w-10 cursor-pointer " />  
                  </CopyToClipboard>  
                  <span className="justify-between px-4 py-2">
-                 Share this game and see if your friends can get it in fewer connections!
+                 Share this game and see if your friends can find a path with fewer connections!
                  </span>
                 </span> 
+                {copied && <span className="bg-black text-white text-right"> Copied! </span>} 
+                <br/>
+                <a href="https://imdb-with-friends.vercel.app/"><strong> Click here </strong> </a> for a new random game.
               
 
               <br/>
-          {copied && <span className="bg-black text-white text-right"> Copied! </span>} <br/>
+          
 
           </div>
   )
