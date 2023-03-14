@@ -30,6 +30,7 @@ interface GuessState {
   end: ActorData,
   win: boolean,
   winMsg?: string,
+  winGuesses?: number
 };
 
 class GuessesBoard extends React.Component<Props, GuessState> {
@@ -64,7 +65,7 @@ class GuessesBoard extends React.Component<Props, GuessState> {
       } else {
           msg = "You discovered a path of " + guessLength + " connections. However, not to burst your bubble, but there exists a shorter way."
       }
-      newState = Object.assign(newState, {win: true}, {winMsg: msg});
+      newState = Object.assign(newState, {win: true}, {winMsg: msg}, {winGuesses: guessLength});
       this.setState(newState)
     } else {
       const { guesses } = this.state;
@@ -194,7 +195,7 @@ class GuessesBoard extends React.Component<Props, GuessState> {
           </tr></tbody></table>  
           <br/>  
           { !this.state.win && <Guess updateGuess={this.updateGuess} options={this.state.options} /> }
-          { (this.state.win && this.state.winMsg) && <InfoOverlay toggleFunc={this.clearMsgFunc} showEnd={true} endMsg={this.state.winMsg} start={this.props.startId} end={this.props.endId} startImageUrl={this.props.startImageUrl} endImageUrl={this.props.endImageUrl} /> }
+          { (this.state.win && this.state.winMsg) && <InfoOverlay toggleFunc={this.clearMsgFunc} showEnd={true} endMsg={this.state.winMsg} start={this.props.startId} end={this.props.endId} startImageUrl={this.props.startImageUrl} endImageUrl={this.props.endImageUrl} winGuesses={this.state.winGuesses} /> }
         </div>
       </section>
     )}

@@ -13,11 +13,12 @@ type Props = {
   end?: string
   startImageUrl?: string
   endImageUrl?: string
+  winGuesses?: number
   toggleFunc: React.MouseEventHandler<HTMLDivElement>
 }
 
 const InfoOverlay = ({
-  showEnd, endMsg, start, end, startImageUrl, endImageUrl, toggleFunc
+  showEnd, endMsg, start, end, startImageUrl, endImageUrl, winGuesses, toggleFunc
 }: Props) => {
 
   return (
@@ -42,7 +43,7 @@ const InfoOverlay = ({
           }}>
             <div style={{position: 'absolute', top: 5, right: 15}} onClick={toggleFunc} > <h1 className="text-3xl mb-4 cursor-pointer text-slate-300">x</h1> </div>
             { !showEnd &&  <HowTo /> }
-            { (showEnd && endMsg && start && end && startImageUrl && endImageUrl ) && <EndGame endMsg={endMsg} start={start} end={end} startImageUrl={startImageUrl} endImageUrl={endImageUrl} /> }
+            { (showEnd && endMsg && start && end && startImageUrl && endImageUrl ) && <EndGame endMsg={endMsg} start={start} end={end} startImageUrl={startImageUrl} endImageUrl={endImageUrl} winGuesses={winGuesses} /> }
           </div>
        </div>
   )

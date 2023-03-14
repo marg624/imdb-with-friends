@@ -12,13 +12,19 @@ type Props = {
   end: string
   startImageUrl: string
   endImageUrl: string
+  winGuesses: number
 }
 
 const EndGame = ({
-  endMsg, start, end, startImageUrl, endImageUrl
+  endMsg, start, end, startImageUrl, endImageUrl, winGuesses
 }: Props) => {
 
-  let shareable = 'https://imdb-with-friends.vercel.app/?' + 'start=' + start + "&end=" + end
+  let text = "IMDB w/ friends\nCheck out my score:\n🎭"
+  for (let i = 0; i < winGuesses; i++) {
+    text = text+"🔗"
+  }
+  text = text + "🎭\n"
+  let shareable = text + 'https://imdb-with-friends.vercel.app/?' + 'start=' + start + "&end=" + end 
   const [copied, setCopied] = useState(false)
 
   function sayCopied() {
@@ -50,13 +56,14 @@ const EndGame = ({
               <em>{endMsg}</em><br/>
               
                 <span className="flex items-center justify-between px-4 py-2">
-                <CopyToClipboard text={shareable} onCopy={() => sayCopied()}>
-                 <img src={share.src} className="object-contain h-10 w-10 cursor-pointer " />  
-                 </CopyToClipboard>  
-                 <span className="justify-between px-4 py-2">
-                 Share this game and see if your friends can find a path with fewer connections!
-                 </span>
+                  <CopyToClipboard text={shareable} onCopy={() => sayCopied()}>
+                    <img src={share.src} className="object-contain h-10 w-10 cursor-pointer " />  
+                   </CopyToClipboard>  
+                   <span className="justify-between px-4 py-2">
+                   Share this game and see if your friends can find a path with fewer connections!
+                   </span>
                 </span> 
+
                 {copied && <span className="bg-black text-white text-right"> Copied! </span>} 
                 <br/>
                 <a href="https://imdb-with-friends.vercel.app/"><strong> Click here </strong> </a> for a new random game.
