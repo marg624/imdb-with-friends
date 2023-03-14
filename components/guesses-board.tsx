@@ -58,13 +58,7 @@ class GuessesBoard extends React.Component<Props, GuessState> {
     let newState = Object.assign(this.state);
     if (imdbUrl1 == this.state.end.imdbUrl) {
       let guessLength = this.state.guesses.length + 1;
-      let msg = ""
-      if (guessLength <= 6) {
-          let plural = (guessLength == 1) ? " connection." : " connections.";
-          msg = "You discovered a path of " + guessLength + plural
-      } else {
-          msg = "You discovered a path of " + guessLength + " connections. However, not to burst your bubble, but there exists a shorter way."
-      }
+      let msg = this.props.startName + " to " + this.props.endName
       newState = Object.assign(newState, {win: true}, {winMsg: msg}, {winGuesses: guessLength});
       this.setState(newState)
     } else {

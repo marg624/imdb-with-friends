@@ -19,7 +19,7 @@ const EndGame = ({
   endMsg, start, end, startImageUrl, endImageUrl, winGuesses
 }: Props) => {
 
-  let text = "IMDB w/ friends\nCheck out my score:\n🎭"
+  let text = "IMDB w/ friends\nCheck out my score [" + endMsg + "]:\n🎭"
   for (let i = 0; i < winGuesses; i++) {
     text = text+"🔗"
   }
@@ -53,7 +53,7 @@ const EndGame = ({
 
 
               <br/>
-              <em>{endMsg}</em><br/>
+              <em>You discovered a path of {winGuesses} connections.</em><br/>
               
                 <span className="flex items-center justify-between px-4 py-2">
                   <CopyToClipboard text={shareable} onCopy={() => sayCopied()}>
