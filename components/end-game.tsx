@@ -3,6 +3,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import React, {useState} from 'react'
 import arrow from '../public/assets/arrow-icon.png';
+import share from '../public/assets/share.png';
+import {CopyToClipboard} from 'react-copy-to-clipboard';
 
 type Props = {
   endMsg: string
@@ -17,6 +19,14 @@ const EndGame = ({
 }: Props) => {
 
   let shareable = 'https://imdb-with-friends.vercel.app/?' + 'start=' + start + "&end=" + end
+  const [copied, setCopied] = useState(false)
+
+  function sayCopied() {
+    setCopied(true)
+    setTimeout(() => {
+      setCopied(false)
+    }, 1000);
+  };
 
   return (
            <div>
@@ -38,7 +48,19 @@ const EndGame = ({
 
               <br/>
               <em>{endMsg}</em><br/>
-              Use <a href={shareable}><strong>this</strong></a> link to share this game and see if your friends can get it in fewer connections!
+              
+                <span className="flex">
+                <CopyToClipboard text={shareable} onCopy={() => sayCopied()}>
+                 <img src={share.src} className="object-contain h-10 w-10 cursor-pointer " />  
+                 </CopyToClipboard>  
+                 <span className="flex items-center justify-between px-4 py-2">
+                 Share this game and see if your friends can get it in fewer connections!
+                 </span>
+                </span> 
+              
+
+              <br/>
+          {copied && <span className="bg-black text-white text-right"> Copied! </span>} <br/>
 
           </div>
   )
