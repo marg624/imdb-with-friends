@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import arrow from '../public/assets/arrow-icon.png';
 import redo from '../public/assets/redo.png';
+import empty from '../public/assets/redo-empty.png';
 
 type Props = {
   startName: string
@@ -28,6 +29,7 @@ const Game = ({
 
   return (
     <div className="flex justify-center " > 
+    <img  src={empty.src} className="h-8 w-8"  style={{position: 'relative', top: 10, left: 40}} /> 
       <h3 className="text-2xl mb-2 leading-snug">
         <table className="table-fixed shadow-md border-separate p-10" >
           <thead>
@@ -58,7 +60,7 @@ const Game = ({
           </tbody> 
         </table>
       </h3>
-        <img src={redo.src} className="object-contain h-8 w-8 cursor-pointer"  style={{position: 'relative', top: 10, right: 40}} onClick={refresh} /> 
+        <img src={redo.src} className="h-8 w-8 cursor-pointer"  style={{position: 'relative', top: 10, right: 40}} onClick={refresh} /> 
 
     </div>
   )
