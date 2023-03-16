@@ -7,7 +7,7 @@ import { CMS_NAME } from '../lib/constants'
 import GuessesBoard from '../components/guesses-board'
 import Game from '../components/game'
 import StartGame from '../components/start-game'
-import gamePairs from '../public/assets/pairs.js';
+import gamePairs from '../public/assets/pairs-5000.js';
 import React, {useState} from 'react';
 import { Rings, MutatingDots } from 'react-loader-spinner';
 import { trackPromise, usePromiseTracker } from 'react-promise-tracker';
@@ -27,10 +27,11 @@ export default function Index() {
   //useState({"endName": "Mila Kunis" , "endUrl": "https://www.imdb.com/name/nm0005109" , "endImageUrl": "https://m.media-amazon.com/images/M/MV5BODQyNTQyNzY4MV5BMl5BanBnXkFtZTcwODg5MDA3MQ@@._V1_FMjpg_UX1000_.jpg" });
   const [ready, setReady] = useState(false);
 
-  const validIds = 6327;
+  
 
   function getPair() {
       const searchParams = new URLSearchParams(window.location.search)
+      const validIds = gamePairs.pairs.length - 1;
 
       let ran = Math.floor(Math.random() * validIds);
       let arr = gamePairs.pairs[ran].split(" ");
