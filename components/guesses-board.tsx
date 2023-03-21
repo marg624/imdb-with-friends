@@ -115,13 +115,18 @@ class GuessesBoard extends React.Component<Props, GuessState> {
     const parser = new DOMParser();
     const dom = parser.parseFromString(html, 'text/html');
     const myMetaElement = dom.querySelector("body script[id='__NEXT_DATA__'][type='application/json']");
+
     if (myMetaElement) {
       const myContent = myMetaElement.textContent;
       var myObject = JSON.parse(myContent);
       var cast = myObject.props.pageProps.mainColumnData.cast.edges;
       var arr = {};
+      let count = 0;
       cast.forEach(function (item, index) {
-        arr[item.node.name.id] = item.node.name.nameText.text;
+        if (count < 4) {
+          arr[item.node.name.id] = item.node.name.nameText.text;
+        }
+        count++;
       });
       return arr;
     } else {
@@ -144,9 +149,9 @@ class GuessesBoard extends React.Component<Props, GuessState> {
       titles.forEach(function (item, index) {
         arr[item.node.title.id] = item.node.title.originalTitleText.text;
       });
-      titles2.forEach(function (item, index) {
-        arr[item.node.title.id] = item.node.title.originalTitleText.text;
-      });
+   //   titles2.forEach(function (item, index) {
+    //    arr[item.node.title.id] = item.node.title.originalTitleText.text;
+    //  });
       return arr;
     } else {
       console.log('No matching element found');
