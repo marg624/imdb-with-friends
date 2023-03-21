@@ -2,7 +2,9 @@ import Link from 'next/link'
 import Guess from './guess'
 import React, { Component } from "react";
 import arrow from '../public/assets/arrow-icon.png';
+import guessWho from '../public/assets/guess-who.png';
 import InfoOverlay from './info-overlay'
+import { Rings, MutatingDots } from 'react-loader-spinner';
 
 interface Props {
   startName: string,
@@ -35,7 +37,7 @@ class GuessesBoard extends React.Component<Props, GuessState> {
   constructor(props: Props) {
 
     super(props);
-    this.state = {win: false, guesses: [], options: [],
+    this.state = {win: false, guesses: [], options: [], 
                                start: {name: props.startName, imdbUrl: props.startUrl, imageUrl: props.startImageUrl},
                                end: {name: props.endName, imdbUrl: props.endUrl, imageUrl: props.endImageUrl}  }
     
@@ -82,6 +84,7 @@ class GuessesBoard extends React.Component<Props, GuessState> {
     let id = this.getId(url)
     let html = await this.fetchHtml(id);
     let arr = this.isPerson(id) ? this.getTitles(html) : this.getCast(html);
+    arr['0'] = id; 
     if (!state) {
       state = this.state;
     }
@@ -157,6 +160,24 @@ class GuessesBoard extends React.Component<Props, GuessState> {
 
    render() {
 
+      const Loading = () => (
+    <div className="flex justify-center items-center ">
+      <MutatingDots 
+        height="80"
+        width="80"
+        color="#5A5A5A"
+        secondaryColor= '#5A5A5A'
+        radius='8'
+        ariaLabel="mutating-dots-loading"
+        wrapperStyle={{}}
+        wrapperClass=""
+        visible={true}
+    />
+      
+    </div>
+  );
+
+
      const {win, guesses, start, options} = this.state;
      const lastGuess = guesses.length == 0 ? start : guesses[guesses.length - 1] 
 
@@ -168,8 +189,10 @@ class GuessesBoard extends React.Component<Props, GuessState> {
      return (
       <section className="flex justify-center">
         <div className="mb-8 md:mb-16">
-        <table><tbody><tr> 
-            {Object.keys(this.state.guesses).map((key, index) => {
+        <table className="flex justify-center"><tbody><tr> 
+
+            {
+              Object.keys(this.state.guesses).map((key, index) => {
               let state1 = this.state.guesses[key]
               return (<span> 
                 <td align="center" valign="middle">
@@ -181,10 +204,22 @@ class GuessesBoard extends React.Component<Props, GuessState> {
                 </td>
                 </span>
                  );
+            
             })}
+
+            { (!this.state.win && this.state.options['0'] != this.getId(lastGuess.imdbUrl)) &&  
+              <Loading />
+            }
+
+            { (!this.state.win && this.state.options['0'] == this.getId(lastGuess.imdbUrl)) &&  
+                <span><td align="center" valign="middle"> 
+                     <img src={guessWho.src} width="75px" /> 
+                  </td> </span>
+            }
+
           </tr></tbody></table>  
           <br/>  
-          { !this.state.win && <Guess updateGuess={this.updateGuess} options={this.state.options} /> }
+          { (!this.state.win && this.state.options['0'] == this.getId(lastGuess.imdbUrl) ) && <Guess updateGuess={this.updateGuess} options={this.state.options} /> }
           { (this.state.win && this.state.winMsg) && <InfoOverlay toggleFunc={this.clearMsgFunc} showEnd={true} endMsg={this.state.winMsg} start={this.props.startId} end={this.props.endId} startImageUrl={this.props.startImageUrl} endImageUrl={this.props.endImageUrl} winGuesses={this.state.winGuesses} /> }
         </div>
       </section>

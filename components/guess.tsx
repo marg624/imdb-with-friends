@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import { Rings, MutatingDots } from 'react-loader-spinner';
+import guessWho from '../public/assets/guess-who.png';
 
 const Guess = (props) => {
   const [inProgress, setInProgress] = useState(false)
@@ -13,6 +14,11 @@ const Guess = (props) => {
 
   function isPerson(id) {
     return id.includes("nm")
+  }
+
+  function getUrl(id) {
+    let url = isPerson(id) ? "https://www.imdb.com/name/" : "https://www.imdb.com/title/"
+    return url;
   }
 
   function getImageUrl(html) {
@@ -30,24 +36,20 @@ const Guess = (props) => {
     }
   }
 
-  async function onChoose(e) {
+
+  async function onChoose(id, name) {
     setInProgress(true)
-    await validate(e)
+    await validate(id, name)
     setInProgress(false)
   }
 
-  async function validate(e) {
-    let index = e.target.selectedIndex
-    if (index != 0) {
-      let id = e.target[index].value
-      let name = e.target[index].textContent
+  async function validate(id, name) {
       let url = isPerson(id) ? "https://www.imdb.com/name/" : "https://www.imdb.com/title/"
       url = url + id
       let html = await fetchHtml(id)
       let image = getImageUrl(html)
       props.updateGuess(name, id, url, image)
-    }
-  }
+  }  
 
   const Loading = () => (
     <div className="flex justify-center items-center ">
@@ -66,26 +68,25 @@ const Guess = (props) => {
     </div>
   );
 
+
   return (
-      <section>
+      <section className="flex justify-center">
       { !inProgress && 
-          <div className="mb-8 md:mb-16">
-          <select onChange={(e) => onChoose(e)} className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-             <option value="">
-                --- choose ---
-             </option>
-            {Object.keys(props.options).map((key, index) => {
+
+            <div className=" mb-8 md:mb-16 grid grid-cols-4 gap-4 border-dashed border-2 border-separate p-4">
+              {Object.keys(props.options).map((key, index) => {
               let name = props.options[key]
-              return (
-                <option key={key} value={key}>
+              let url = getUrl(key)
+              if (!(key == '0')) {
+                return ( <div onClick={(e) => onChoose(key, name)} className="cursor-pointer" key={key}>
                   {name}
-                 </option>
-                 );
-            })}
-          </select>
-          </div>
+                  </div> );
+            }
+      })}
+            </div>
       }
-      {inProgress && <Loading />}
+      <br/>
+     {inProgress && <Loading />}
 
       </section>
     );
