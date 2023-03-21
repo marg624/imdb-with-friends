@@ -1,6 +1,8 @@
 import React, {useState} from 'react';
 import { Rings, MutatingDots } from 'react-loader-spinner';
 import guessWho from '../public/assets/guess-who.png';
+import {isMobile} from 'react-device-detect';
+
 
 const Guess = (props) => {
   const [inProgress, setInProgress] = useState(false)
@@ -68,12 +70,14 @@ const Guess = (props) => {
     </div>
   );
 
+  const classExtra = (isMobile? "mb-8 md:mb-16 gap-4 border-dashed border-2 border-separate p-4 grid grid-cols-2" : "mb-8 md:mb-16 gap-4 border-dashed border-2 border-separate p-4 grid grid-cols-4" )
+
 
   return (
       <section className="flex justify-center">
       { !inProgress && 
 
-            <div className=" mb-8 md:mb-16 grid grid-cols-4 gap-4 border-dashed border-2 border-separate p-4">
+            <div className={classExtra}>
               {Object.keys(props.options).map((key, index) => {
               let name = props.options[key]
               let url = getUrl(key)
