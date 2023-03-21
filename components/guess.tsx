@@ -70,7 +70,7 @@ const Guess = (props) => {
     </div>
   );
 
-  const classExtra = (isMobile? "mb-8 md:mb-16 gap-4 border-dashed border-2 border-separate p-4 grid grid-cols-2" : "mb-8 md:mb-16 gap-4 border-dashed border-2 border-separate p-4 grid grid-cols-4" )
+  const classExtra = (isMobile? "mb-8 md:mb-16 gap-4 border-separate p-4 grid grid-cols-2 flex justify-center" : "mb-8 md:mb-16 gap-4 border-separate p-4 grid grid-cols-4 flex justify-center" )
 
 
   return (
@@ -82,8 +82,8 @@ const Guess = (props) => {
               let name = props.options[key]
               let url = getUrl(key)
               if (!(key == '0')) {
-                return ( <div onClick={(e) => onChoose(key, name)} className="cursor-pointer" key={key}>
-                  {name}
+                return ( <div onClick={(e) => onChoose(key, name)} className="text-center inline-block align-middle border-dashed border-2 cursor-pointer text-slate-500 hover:text-black hover:border-black flex justify-center rounded-md drop-shadow-md" key={key} >
+                  <strong>{name}</strong>
                   </div> );
             }
       })}
