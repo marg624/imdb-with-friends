@@ -90,8 +90,8 @@ const Game = ({
           </tbody> 
         </table>
       </h3>
-        <span className="flex-nowrap" style={{position: 'relative', top: 10, right: 40}}>
-          <img src={redo.src} className="h-6 w-6 cursor-pointer"  onClick={refresh} /> 
+        <span style={{position: 'relative', top: 10, right: 40}}>
+          <img src={redo.src} className="object-contain h-8 w-8 cursor-pointer"  onClick={refresh} /> 
         </span>
         
     </div>
