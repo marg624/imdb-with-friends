@@ -43,7 +43,7 @@ export default function Index() {
       let start = arr[0];
       let end = arr[1];
 
-      if (searchParams.get('start') && searchParams.get('end')) {
+      if (searchParams.get('start') && searchParams.get('end') && (retry == 0)) {
         start = searchParams.get('start');
         end = searchParams.get('end');
       }
