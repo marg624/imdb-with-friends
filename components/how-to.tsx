@@ -15,9 +15,6 @@ const HowTo = (props) => {
               Find the connection between the 2 actors. You will be given options to choose from that take you from an actor to a work of art and vice versa.
               <br/>
               Give up? Don't recognize the actors? Click the refresh button on the top right corner to regenerate a pair of actors!
-              <br/>
-              At any point, you can share the this same game with your friends by clicking the share button on the top left corner!
-
 
               <br/><br/>
               Example:

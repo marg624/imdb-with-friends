@@ -53,14 +53,8 @@ const Game = ({
 
   return (
     <div className="flex justify-center " > 
-    <span className="flex justify-left " style={{position: 'relative', top: 10, left: 60}}>
-          <CopyToClipboard text={shareable} onCopy={() => sayCopied()}>
-            <img src={share.src} className="object-contain h-6 w-6 cursor-pointer " />  
-          </CopyToClipboard>  
-          {!copied && <span className="bg-white text-black text-left h-6 w-6 "></span>} 
-          {copied && <span className="bg-white text-black text-left h-6 w-6"> Copied! </span>} 
-     </span>
       <h3 className="text-2xl mb-2 leading-snug">
+
         <table className="table-fixed shadow-md border-separate p-10" >
           <thead>
             <tr>
