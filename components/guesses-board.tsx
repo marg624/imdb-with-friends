@@ -23,9 +23,14 @@ interface ActorData {
   imageUrl: string,
 };
 
+interface OptionData {
+  name: string,
+  imageUrl: string,
+};
+
 interface GuessState {
   guesses: Array<ActorData>,
-  options: Array<String>,
+  options1: Array<OptionData>,
   start: ActorData,
   end: ActorData,
   win: boolean,
@@ -37,7 +42,7 @@ class GuessesBoard extends React.Component<Props, GuessState> {
   constructor(props: Props) {
 
     super(props);
-    this.state = {win: false, guesses: [], options: [], 
+    this.state = {win: false, guesses: [], options1: [{name: "", imageUrl: ""}], 
                                start: {name: props.startName, imdbUrl: props.startUrl, imageUrl: props.startImageUrl},
                                end: {name: props.endName, imdbUrl: props.endUrl, imageUrl: props.endImageUrl}  }
     
@@ -85,16 +90,14 @@ class GuessesBoard extends React.Component<Props, GuessState> {
     let id = this.getId(url)
     let html = await this.fetchHtml(id);
     let arr = this.isPerson(id) ? this.getTitles(html) : this.getCast(html);
-    arr['0'] = id; 
+    arr['0'] = {name: id, imageUrl: id}; 
     if (!state) {
       state = this.state;
     }
-    let newState = Object.assign(state, { options: arr });
+    let newState = Object.assign(state, { options1: arr });
 
     this.setState(newState)
   }
-
-
 
   isPerson(id) {
     return id.includes("nm")
@@ -120,11 +123,12 @@ class GuessesBoard extends React.Component<Props, GuessState> {
       const myContent = myMetaElement.textContent;
       var myObject = JSON.parse(myContent);
       var cast = myObject.props.pageProps.mainColumnData.cast.edges;
+
       var arr = {};
       let count = 0;
       cast.forEach(function (item, index) {
         if (count < 4) {
-          arr[item.node.name.id] = item.node.name.nameText.text;
+          arr[item.node.name.id] = {name: item.node.name.nameText.text, imageUrl: item.node.name.primaryImage.url};
         }
         count++;
       });
@@ -147,7 +151,7 @@ class GuessesBoard extends React.Component<Props, GuessState> {
       var titles2 = myObject.props.pageProps.mainColumnData.releasedPrimaryCredits[0].credits.edges;
       var arr = {};
       titles.forEach(function (item, index) {
-        arr[item.node.title.id] = item.node.title.originalTitleText.text;
+        arr[item.node.title.id] = {name: item.node.title.originalTitleText.text, imageUrl: item.node.title.primaryImage.url};
       });
    //   titles2.forEach(function (item, index) {
     //    arr[item.node.title.id] = item.node.title.originalTitleText.text;
@@ -184,10 +188,10 @@ class GuessesBoard extends React.Component<Props, GuessState> {
   );
 
 
-     const {win, guesses, start, options} = this.state;
+     const {win, guesses, start, options1} = this.state;
      const lastGuess = guesses.length == 0 ? start : guesses[guesses.length - 1] 
 
-     if (guesses.length == 0 && options.length == 0) {
+     if (guesses.length == 0 && options1.length == 1) {
         const { imdbUrl } = lastGuess;
         this.getOptions(imdbUrl);
       }
@@ -213,11 +217,11 @@ class GuessesBoard extends React.Component<Props, GuessState> {
             
             })}
 
-            { (!this.state.win && this.state.options['0'] != this.getId(lastGuess.imdbUrl)) &&  
+            { (!this.state.win && this.state.options1['0'].name != this.getId(lastGuess.imdbUrl)) &&  
               <Loading />
             }
 
-            { (!this.state.win && this.state.options['0'] == this.getId(lastGuess.imdbUrl)) &&  
+            { (!this.state.win && this.state.options1['0'].name == this.getId(lastGuess.imdbUrl)) &&  
                 <span><td align="center" valign="middle"> 
                      <img src={guessWho.src} width="75px" /> 
                   </td> </span>
@@ -225,7 +229,7 @@ class GuessesBoard extends React.Component<Props, GuessState> {
 
           </tr></tbody></table>  
           <br/>  
-          { (!this.state.win && this.state.options['0'] == this.getId(lastGuess.imdbUrl) ) && <Guess updateGuess={this.updateGuess} options={this.state.options} /> }
+          { (!this.state.win && this.state.options1['0'].name == this.getId(lastGuess.imdbUrl) ) && <Guess updateGuess={this.updateGuess}  options1={this.state.options1} /> }
           { (this.state.win && this.state.winMsg) && <InfoOverlay toggleFunc={this.clearMsgFunc} showEnd={true} endMsg={this.state.winMsg} start={this.props.startId} end={this.props.endId} startImageUrl={this.props.startImageUrl} endImageUrl={this.props.endImageUrl} winGuesses={this.state.winGuesses} /> }
         </div>
       </section>

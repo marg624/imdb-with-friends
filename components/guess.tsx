@@ -78,13 +78,15 @@ const Guess = (props) => {
       { !inProgress && 
 
             <div className={classExtra}>
-              {Object.keys(props.options).map((key, index) => {
-              let name = props.options[key]
+              {Object.keys(props.options1).map((key, index) => {
+              let name = props.options1[key].name
+              let image = props.options1[key].imageUrl
               let url = getUrl(key)
               if (!(key == '0')) {
                 return ( <div onClick={(e) => onChoose(key, name)} className="text-center inline-block align-middle border-dashed border-2 cursor-pointer text-slate-500 hover:text-black hover:border-black flex justify-center rounded-md drop-shadow-md" key={key} >
-                  <strong>{name}</strong>
-                  </div> );
+                  <div className="text-center gap-4 border-separate p-4" ><strong>{name}</strong></div> 
+                  <img src={image} className="object-scale-down border-4 border-solid border-transparent" width="100px" />
+                </div> );
             }
       })}
             </div>
