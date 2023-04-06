@@ -70,7 +70,7 @@ const Guess = (props) => {
     </div>
   );
 
-  const classExtra = (isMobile? "mb-8 md:mb-16 gap-4 border-separate p-4 grid grid-cols-2 flex justify-center" : "mb-8 md:mb-16 gap-4 border-separate p-4 grid grid-cols-4 flex justify-center" )
+  const classExtra = (isMobile? "mb-8 md:mb-16 gap-4 border-separate p-4 grid grid-cols-1 flex justify-center" : "mb-8 md:mb-16 gap-4 border-separate p-4 grid grid-cols-4 flex justify-center" )
 
 
   return (
@@ -85,7 +85,7 @@ const Guess = (props) => {
               if (!(key == '0')) {
                 return ( <div onClick={(e) => onChoose(key, name)} className="text-center inline-block align-middle border-dashed border-2 cursor-pointer text-slate-500 hover:text-black hover:border-black flex justify-center rounded-md drop-shadow-md" key={key} >
                   <div className="text-center gap-4 border-separate p-4" ><strong>{name}</strong></div> 
-                  <img src={image} className="object-scale-down border-4 border-solid border-transparent" width="100px" />
+                  <br/><img src={image} className="object-scale-down border-4 border-solid border-transparent" width="100px" />
                 </div> );
             }
       })}
