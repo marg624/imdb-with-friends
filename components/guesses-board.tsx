@@ -147,8 +147,8 @@ class GuessesBoard extends React.Component<Props, GuessState> {
     if (myMetaElement) {
       const myContent = myMetaElement.textContent;
       var myObject = JSON.parse(myContent);
-      var titles = myObject.props.pageProps.mainColumnData.knownFor.edges;
-      var titles2 = myObject.props.pageProps.mainColumnData.releasedPrimaryCredits[0].credits.edges;
+      var titles = myObject.props.pageProps.mainColumnData.knownForFeature.edges;
+    //  var titles2 = myObject.props.pageProps.mainColumnData.releasedPrimaryCredits[0].credits.edges;
       var arr = {};
       titles.forEach(function (item, index) {
         arr[item.node.title.id] = {name: item.node.title.originalTitleText.text, imageUrl: item.node.title.primaryImage.url};
